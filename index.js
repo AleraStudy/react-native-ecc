@@ -34,7 +34,17 @@ module.exports = {
   verify,
   lookupKey,
   hasKey,
-  keyFromPublic
+  keyFromPublic,
+  deleteKeyPair
+}
+
+function deleteKeyPair(cb) {
+  RNECC.deleteKeyPair((err, result) => {
+    if (err) {
+      return cb(new Error(err));
+    }
+    cb(null, result);
+  });
 }
 
 function setServiceID (id) {
