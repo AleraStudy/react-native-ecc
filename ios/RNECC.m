@@ -554,11 +554,7 @@ NSString *keychainStatusToString(OSStatus status) {
 
 @end
 
-
-RCT_EXPORT_METHOD(deleteKeyPair:(RCTResponseSenderBlock)callback) {
-  NSString *serviceID = ...; // ваш serviceID
-  NSString *account = ...; // ваш account, можно получить из настроек или параметров
-
+RCT_EXPORT_METHOD(deleteKeyPair:(NSString *)serviceID account:(NSString *)account callback:(RCTResponseSenderBlock)callback) {
   NSDictionary *query = @{
     (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
     (__bridge id)kSecAttrService: serviceID,
@@ -569,6 +565,6 @@ RCT_EXPORT_METHOD(deleteKeyPair:(RCTResponseSenderBlock)callback) {
   if (status == errSecSuccess) {
     callback(@[[NSNull null], @"Key pair deleted successfully"]);
   } else {
-    callback(@[@"Failed to delete key pair", [NSNull null]]);
+    callback(@[[NSString stringWithFormat:@"Failed to delete key pair: %d", (int)status], [NSNull null]]);
   }
 }
